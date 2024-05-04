@@ -25,7 +25,11 @@ import co.edu.udea.compumovil.proyectofinal.ui.theme.ProyectoFinalTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HistorialPartidos (navController: NavController) {
-    Scaffold {
+    Scaffold (
+        topBar = {
+            AppBar(title = "Historial de Partidos", onNavigationClick = { navController.popBackStack() })
+        }
+    ){
         LazyColumn (
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -59,6 +63,8 @@ fun HistorialPartidos (navController: NavController) {
         }
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

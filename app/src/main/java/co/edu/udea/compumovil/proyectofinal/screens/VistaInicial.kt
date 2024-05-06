@@ -9,15 +9,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import co.edu.udea.compumovil.proyectofinal.infoCompartida.Partido
 import co.edu.udea.compumovil.proyectofinal.navigation.AppNavigation
 import co.edu.udea.compumovil.proyectofinal.navigation.AppScreens
 import co.edu.udea.compumovil.proyectofinal.ui.theme.ProyectoFinalTheme
@@ -37,19 +42,21 @@ fun VistaInicial(navController: NavController){
                     Button(
                         onClick = {navController.navigate(AppScreens.VistaPrincipal.route)},
                         Modifier
-                            .width(200.dp)
-                            .height(100.dp)
-                            .padding(10.dp)
+                            .width(300.dp)
+                            .height(300.dp)
+                            .padding(20.dp),
+                        shape = RoundedCornerShape(45.dp),
                         ) {
-                       Text(text = "Iniciar un Partido")
+                       Text(text = "Iniciar un Partido", style = TextStyle(fontSize = 40.sp), textAlign = TextAlign.Center)
                     }
                     Button(onClick = {navController.navigate(AppScreens.HistorialPartidos.route)},
                         Modifier
-                            .width(200.dp)
-                            .height(100.dp)
-                            .padding(10.dp)
+                            .width(300.dp)
+                            .height(300.dp)
+                            .padding(20.dp),
+                        shape = RoundedCornerShape(45.dp)
                     ) {
-                        Text(text = "Historial de Partidos")
+                        Text(text = "Historial de Partidos", style = TextStyle(fontSize = 40.sp), textAlign = TextAlign.Center)
                     }
                 }
             }
@@ -61,6 +68,6 @@ fun VistaInicial(navController: NavController){
 @Composable
 fun PreviewPorDefecto() {
     ProyectoFinalTheme {
-        AppNavigation()
+        AppNavigation(viewModel = Partido())
     }
 }

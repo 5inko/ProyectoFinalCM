@@ -3,6 +3,8 @@ package co.edu.udea.compumovil.proyectofinal.screens
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
+import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -30,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +50,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import co.edu.udea.compumovil.proyectofinal.infoCompartida.Partido
 import co.edu.udea.compumovil.proyectofinal.navigation.AppNavigation
 import co.edu.udea.compumovil.proyectofinal.navigation.AppScreens
 import co.edu.udea.compumovil.proyectofinal.ui.theme.ProyectoFinalTheme
@@ -55,7 +61,7 @@ import co.edu.udea.compumovil.proyectofinal.ui.theme.ProyectoFinalTheme
 //@Preview(showSystemUi = true)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun VistaPrincipal(navController: NavController) {
+fun VistaPrincipal(navController: NavController, viewModel: Partido) {
     val configuration = LocalConfiguration.current
     val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -95,7 +101,22 @@ fun VistaPrincipal(navController: NavController) {
             puntosA = 0
             puntosB = 0
         }
+        if (setsA >= 2 || setsB >= 2) {
+            viewModel.partidoGanado.value = true
+            if (setsA >= 2) {
+                viewModel.equipoGanador.value = if (equipo1.text.isEmpty()) "Equipo 1" else equipo1.text
+                Log.d("EquipoGanador", "El equipo ganador es: ${viewModel.equipoGanador.value}")
+                navController.navigate(AppScreens.ResumenPartido.createRoute(viewModel.equipoGanador.value))
+            } else if (setsB >= 2) {
+                viewModel.equipoGanador.value = if (equipo2.text.isEmpty()) "Equipo 2" else equipo2.text
+                navController.navigate(AppScreens.ResumenPartido.createRoute(viewModel.equipoGanador.value))
+            }
+        }
+
+
     }
+
+
 
     Scaffold (
         topBar = {
@@ -116,7 +137,7 @@ fun VistaPrincipal(navController: NavController) {
                         if (isEditing1) {
                             TextField(
                                 value = equipo1,
-                                onValueChange = { equipo1 = it },
+                                onValueChange = { equipo1 = it},
                                 modifier = Modifier.width(380.dp),
                                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center)
                             )
@@ -135,7 +156,7 @@ fun VistaPrincipal(navController: NavController) {
                             Modifier
                                 .width(380.dp)
                                 .height(150.dp)
-                                .padding(10.dp),
+                                .padding(6.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0, 151, 167))
                         ) {
@@ -148,13 +169,13 @@ fun VistaPrincipal(navController: NavController) {
                         Button(
                             onClick = {},
                             Modifier
-                                .height(80.dp)
+                                .height(90.dp)
                                 .width(380.dp)
                                 .padding(8.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0, 151, 167))
                         ) {
-                            Text(text = "T", style = TextStyle(fontSize = 50.sp))
+                            Text(text = "T", style = TextStyle(fontSize = 40.sp))
                         }
                     }
                 }
@@ -193,7 +214,7 @@ fun VistaPrincipal(navController: NavController) {
                             Modifier
                                 .width(380.dp)
                                 .height(150.dp)
-                                .padding(10.dp),
+                                .padding(6.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(231, 76, 60))
                         ) {
@@ -202,13 +223,13 @@ fun VistaPrincipal(navController: NavController) {
                         Button(
                             onClick = {},
                             Modifier
-                                .height(80.dp)
+                                .height(90.dp)
                                 .width(380.dp)
                                 .padding(8.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(231, 76, 60))
                         ) {
-                            Text(text = "T", style = TextStyle(fontSize = 50.sp))
+                            Text(text = "T", style = TextStyle(fontSize = 40.sp))
                         }
                     }
                 }
@@ -335,7 +356,7 @@ fun AppBar(title: String, onNavigationClick: () -> Unit) {
 @Composable
 fun PreviewPrincipal(){
     ProyectoFinalTheme {
-        AppNavigation()
+        AppNavigation(viewModel = Partido())
     }
 }
 

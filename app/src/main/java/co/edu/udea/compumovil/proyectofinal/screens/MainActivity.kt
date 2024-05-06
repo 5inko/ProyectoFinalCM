@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import co.edu.udea.compumovil.proyectofinal.infoCompartida.Partido
 import co.edu.udea.compumovil.proyectofinal.ui.theme.ProyectoFinalTheme
 import co.edu.udea.compumovil.proyectofinal.navigation.AppNavigation
 
@@ -23,8 +25,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProyectoFinalTheme {
                 // Use MaterialTheme.colors.background para el color de fondo
+                val viewModel: Partido = viewModel()
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    AppNavigation()
+                    AppNavigation(viewModel)
                 }
             }
         }
@@ -35,7 +38,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     ProyectoFinalTheme {
-        AppNavigation()
+        AppNavigation(viewModel = Partido())
     }
 }
 

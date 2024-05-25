@@ -57,11 +57,17 @@ import co.edu.udea.compumovil.proyectofinal.infoCompartida.Partido
 import co.edu.udea.compumovil.proyectofinal.navigation.AppNavigation
 import co.edu.udea.compumovil.proyectofinal.navigation.AppScreens
 import co.edu.udea.compumovil.proyectofinal.ui.theme.ProyectoFinalTheme
+import kotlinx.coroutines.delay
 
 //@Preview(showSystemUi = true)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun VistaPrincipal(navController: NavController, viewModel: Partido) {
+    var timeLeft by remember { mutableStateOf(30) }
+    var isCountingDownA by remember { mutableStateOf(false) }
+    var isCountingDownB by remember { mutableStateOf(false) }
+    var timeButtonTextA by remember { mutableStateOf("T")}
+    var timeButtonTextB by remember { mutableStateOf("T")}
     val configuration = LocalConfiguration.current
     val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -116,7 +122,31 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
 
     }
 
+    LaunchedEffect(isCountingDownA) {
+        if (isCountingDownA) {
+            while (timeLeft > 0) {
+                timeButtonTextA = timeLeft.toString();
+                delay(1000L)
+                timeLeft -= 1
 
+            }
+            isCountingDownA = false
+            timeButtonTextA="T"
+        }
+    }
+
+    LaunchedEffect(isCountingDownB) {
+        if (isCountingDownB) {
+            while (timeLeft > 0) {
+                timeButtonTextB = timeLeft.toString();
+                delay(1000L)
+                timeLeft -= 1
+
+            }
+            isCountingDownB = false
+            timeButtonTextB="T"
+        }
+    }
 
     Scaffold (
         topBar = {
@@ -167,7 +197,10 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             )
                         }
                         Button(
-                            onClick = {},
+                            onClick = {
+                                timeLeft = 30
+                                isCountingDownA = true
+                            },
                             Modifier
                                 .height(90.dp)
                                 .width(380.dp)
@@ -175,7 +208,7 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0, 151, 167))
                         ) {
-                            Text(text = "T", style = TextStyle(fontSize = 40.sp))
+                            Text(text = timeButtonTextA, style = TextStyle(fontSize = 40.sp))
                         }
                     }
                 }
@@ -221,7 +254,10 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             Text(text = puntosB.toString(), style = TextStyle(fontSize = 80.sp))
                         }
                         Button(
-                            onClick = {},
+                            onClick = {
+                                timeLeft = 30
+                                isCountingDownB = true
+                            },
                             Modifier
                                 .height(90.dp)
                                 .width(380.dp)
@@ -229,7 +265,7 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(231, 76, 60))
                         ) {
-                            Text(text = "T", style = TextStyle(fontSize = 40.sp))
+                            Text(text = timeButtonTextB, style = TextStyle(fontSize = 40.sp))
                         }
                     }
                 }
@@ -272,7 +308,10 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             Text(text = puntosA.toString(), style = TextStyle(fontSize = 70.sp))
                         }
                         Button(
-                            onClick = {},
+                            onClick = {
+                                timeLeft = 30
+                                isCountingDownA = true
+                            },
                             Modifier
                                 .height(80.dp)
                                 .fillMaxWidth()
@@ -280,7 +319,7 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0, 151, 167))
                         ) {
-                            Text(text = "T", style = TextStyle(fontSize = 40.sp))
+                            Text(text = timeButtonTextA, style = TextStyle(fontSize = 40.sp))
                         }
                     }
                 }
@@ -322,7 +361,10 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             Text(text = puntosB.toString(), style = TextStyle(fontSize = 80.sp))
                         }
                         Button(
-                            onClick = {},
+                            onClick = {
+                                timeLeft = 30
+                                isCountingDownB = true
+                            },
                             Modifier
                                 .height(80.dp)
                                 .fillMaxWidth()
@@ -330,7 +372,7 @@ fun VistaPrincipal(navController: NavController, viewModel: Partido) {
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(231, 76, 60))
                         ) {
-                            Text(text = "T", style = TextStyle(fontSize = 40.sp))
+                            Text(text = timeButtonTextB, style = TextStyle(fontSize = 40.sp))
                         }
                     }
                 }
